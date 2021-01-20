@@ -1,14 +1,7 @@
 const mongoose = require('mongoose');
-const key = require('./mongokey.js');
+//const key = require('./mongokey.js');
 //ongoose.connect('mongodb://54.176.228.90:27017/reviews', { useNewUrlParser: true });
-mongoose.connect(`mongodb://${key.ip}/reviews`, {
-  useNewUrlParser: true,
-  auth: {
-    user: key.user,
-    password:key.pass
-  },
-  authSource:"admin"
- });
+mongoose.connect(`mongodb://localhost/reviews`, { useNewUrlParser: true,  useUnifiedTopology: true });
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));

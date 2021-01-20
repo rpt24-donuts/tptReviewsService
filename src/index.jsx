@@ -25,11 +25,13 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    //console.log((isNaN(window.location.pathname.split('/')[2]*1)) ? 5: window.location.pathname.split('/')[2]*1);
-    this.setState({productId: (isNaN(window.location.pathname.split('/')[2]*1)) ? 5: window.location.pathname.split('/')[2]*1}, () => this.getReviews());
+    let id = window.location.href.split("/")[4];
+    this.setState({
+      productId: id
+    }, () => this.getReviews());
 
-  //   axios.get(`/${this.state.productId}/reviews/`)
-  //     .then((results) => this.setState({ reviews: results.data.reviews, grades: results.data.grades }));
+    // axios.get(`/${this.state.productId}/reviews/`)
+    //   .then((results) => this.setState({ reviews: results.data.reviews, grades: results.data.grades }));
   }
 
   onSortChange(e) {
@@ -39,7 +41,7 @@ class App extends React.Component {
   }
 
   getReviews() {
-    axios.get(`http://18.144.61.129:3001/products/${this.state.productId}/reviews?ratings=${this.state.sort.ratings || false}&grades=${this.state.sort.grades || false}`)
+    axios.get(`/products/${this.state.productId}/reviews?ratings=${this.state.sort.ratings || false}&grades=${this.state.sort.grades || false}`)
       .then((results) => this.setState(
         {
           reviews: results.data.reviews, grades: results.data.grades,
@@ -48,7 +50,7 @@ class App extends React.Component {
   }
 
   addHelpful(reviewId) {
-    axios.put(`http://18.144.61.129:3001/helpful/${reviewId}`)
+    axios.put(`/helpful/${reviewId}`)
       .then((results) => this.getReviews());
   }
 
@@ -56,7 +58,7 @@ class App extends React.Component {
     const reviews = this.state.reviews.map((review, key) => <Review review={review} helpful={this.addHelpful} key={key}/>);
     return (
       <div>
-        <img src="http://18.144.61.129:3001/Stats.png" id="chartimg"></img>
+        <img src="/Stats.png" id="chartimg"></img>
         <Sort grades={this.state.grades} onSort={this.onSortChange} />
         {reviews}
       </div>

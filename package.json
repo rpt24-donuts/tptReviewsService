@@ -6,7 +6,9 @@
   "scripts": {
     "test": "jest --coverage --detectOpenHandles",
     "setup": "node DataGenerator.js && webpack",
-    "start": "nodemon server/server.js"
+    "start": "nodemon server/server.js",
+    "db-seed": "node DataGenerator.js",
+    "react-dev": "webpack --watch"
   },
   "repository": {
     "type": "git",
