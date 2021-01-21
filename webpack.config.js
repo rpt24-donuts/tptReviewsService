@@ -1,8 +1,8 @@
 var path = require('path');
-var S3Plugin = require('webpack-s3-plugin');
+//var S3Plugin = require('webpack-s3-plugin');
 var SRC_DIR = path.join(__dirname, '/src');
 var DIST_DIR = path.join(__dirname,'/dist');
-var aws = require('./AWSkey.js');
+//var aws = require('./AWSkey.js');
 module.exports = {
   entry: `${SRC_DIR}/app.jsx`,
   output: {
@@ -21,17 +21,17 @@ module.exports = {
       }
     ]
   },
-  plugins: [
-    new S3Plugin({
-      include:'bundle.js',
-      s3Options: {
-        accessKeyId: aws.accessKey,
-        secretAccessKey: aws.secretKey
-      },
-      s3UploadOptions: {
-        Bucket: 'tptproxy'
-      }
-    })
-  ],
+  // plugins: [
+  //   new S3Plugin({
+  //     include:'bundle.js',
+  //     s3Options: {
+  //       accessKeyId: aws.accessKey,
+  //       secretAccessKey: aws.secretKey
+  //     },
+  //     s3UploadOptions: {
+  //       Bucket: 'tptproxy'
+  //     }
+  //   })
+  // ],
   watch: true
 };
