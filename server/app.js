@@ -9,6 +9,7 @@ const path = require('path');
 const cors = require('cors');
 const { ModuleFilenameHelpers } = require('webpack');
 const { db, review, schema } = require('./mongodb.js');
+const model = require('./models');
 
 app.use(cors());
 
@@ -41,7 +42,12 @@ app.get('/products/:id/reviews/', (req, res) => {
   }).limit(20);
 });
 
+app.put('/review/reviewId', (req, res) => {
+
+});
+
 app.put('/helpful/:reviewId', (req, res) => {
+  console.log('req.params.reviewId ', req.params.reviewId);
   review.findOneAndUpdate({ _id: req.params.reviewId }, {$inc: {helpful: 1}}, (err, results) => {
     if (err) {
       console.log(err);
