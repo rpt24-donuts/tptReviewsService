@@ -1,14 +1,14 @@
 const { review } = require('./mongodb.js');
 
 const model = {
-  put: (reviewId, callback) => {
-    review.find(reviewId)
+  put: (reviewId, updateFields, callback) => {
+    // validate grade and standard inputs
+    console.log('updateFields ', updateFields);
+    review.findOneAndUpdate(reviewId, updateFields, { new: true, useFindAndModify: false })
       .then((results) => {
-        console.log('results ', results);
         callback(null, results);
       })
       .catch((err) => {
-        console.log('err ', err);
         callback(err);
       });
   },

@@ -3,6 +3,9 @@ const express = require('express');
 const mongoose = require('mongoose');
 
 const app = express();
+// middleware for the CRUD API
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 const path = require('path');
 
@@ -42,8 +45,32 @@ app.get('/products/:id/reviews/', (req, res) => {
   }).limit(20);
 });
 
-app.put('/review/reviewId', (req, res) => {
+// adding a PUT endpoint to UPDATE database
+app.put('/review/:reviewId', (req, res) => {
+  const reviewItem = { _id: req.params.reviewId };
+  const updateFields = {};
+  // grade test input: ["1st Grade", "3rd Grade"]
+  if (req.body.grade !== undefined) {
+    updateFields.grade = JSON.parse(req.body.grade);
+  }
+  // standards test input: [{"standard" : "TKO 12.4f","alignment" : 5},{"standard" : "CCSS 3.NF.A.1","alignment" : 2}]
+  if (req.body.standards !== undefined) {
+    updateFields.standards = JSON.parse(req.body.standards);
+  }
+  if (req.body.title !== undefined) {
+    updateFields.title = req.body.title;
+  }
+  if (req.body.description !== undefined) {
+    updateFields.description = req.body.description;
+  }
 
+  model.put(reviewItem, updateFields, (err, result) => {
+    if (err) {
+      res.status(400).send();
+    } else {
+      res.status(201).send(result);
+    }
+  });
 });
 
 app.put('/helpful/:reviewId', (req, res) => {
