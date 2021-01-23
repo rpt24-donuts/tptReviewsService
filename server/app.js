@@ -36,11 +36,11 @@ app.get('/products/:id/reviews/', (req, res) => {
     returnObject['reviews'] = results;
     review.find().distinct('grade', (err, grades) => {
       if (err) {
-        res.send(err);
+        res.status(400).send(err);
         return;
       }
       returnObject.grades = grades;
-      res.send(returnObject);
+      res.status(200).send(returnObject);
     });
   }).limit(20);
 });
@@ -96,12 +96,14 @@ app.put('/review/:reviewId', (req, res) => {
   if (req.body.description !== undefined) {
     updateFields.description = req.body.description;
   }
-
+  if (req.body.rating !== undefined) {
+    updateFields.rating = req.body.rating;
+  }
   model.put(reviewItem, updateFields, (err, result) => {
     if (err) {
       res.status(400).send();
     } else {
-      res.status(201).send(result);
+      res.status(200).send(result);
     }
   });
 });
@@ -113,7 +115,7 @@ app.delete('/review/:reviewId', (req, res) => {
     if (err) {
       res.status(400).send();
     } else {
-      res.status(201).send(result);
+      res.status(204).send(result);
     }
   });
 });
