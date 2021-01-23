@@ -3,9 +3,9 @@ Reviews Module
 
 ## API
 
-*  `GET` request
+**`GET` request**
 *  endpoint: _/products/:id/reviews_
-*  Params:`id=[integer]`
+*  Params:`id=[integer]` product unique identifier
 * **Success Response:**
   * **Code:** 200
   * **Content:**
@@ -24,17 +24,16 @@ Reviews Module
             "__v": 0
         }, ...]```
 
-
-*  `POST` request
+**`POST` request**
 *  endpoint: _/products/:id/review_
 *  Params:`id=[integer]` product unique identifier
 *  Body:
-  * `title = string`
-  * `user = string`
-  * `description = string`
-  * `rating = integer`
-  * `grade = array`
-  * `description = array`
+   * `title: string`
+   * `user: string`
+   * `description: string`
+   * `rating: integer`
+   * `grade: array`
+   * `description: array`
 * **Success Response:**
   * **Code:** 204
   * **Content:**
@@ -54,15 +53,15 @@ Reviews Module
 }```
 
 
-*  `PUT` request
+**`PUT` request**
 *  endpoint: _/review/:reviewId'_
 *  Params:`reviewId=[MongoDB ObjectId]`
 *  Body:
-  * `title = string`
-  * `description = string`
-  * `rating = integer`
-  * `grade = array`
-  * `description = array`
+   * `title: string`
+   * `description: string`
+   * `rating: integer`
+   * `grade: array`
+   * `description: array`
 * **Success Response:**
   * **Code:** 200
   * **Content:**
@@ -90,7 +89,7 @@ Reviews Module
     "__v": 0
 }```
 
-*  `DELETE` request
+**`DELETE` request**
 *  endpoint: _/review/:reviewId'_
 *  Params:`reviewId=[MongoDB ObjectId]`
 * **Success Response:**
