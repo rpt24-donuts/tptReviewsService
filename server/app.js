@@ -45,6 +45,39 @@ app.get('/products/:id/reviews/', (req, res) => {
   }).limit(20);
 });
 
+// adding a POST endpoint to CREATE a new item in the database
+app.post('/products/:id/review', (req, res) => {
+  const productId = req.params.id;
+  const reviewToCreate = {};
+  reviewToCreate.productId = productId;
+
+  if (req.body.grade !== undefined) {
+    reviewToCreate.grade = JSON.parse(req.body.grade);
+  }
+  if (req.body.standards !== undefined) {
+    reviewToCreate.standards = JSON.parse(req.body.standards);
+  }
+  if (req.body.title !== undefined) {
+    reviewToCreate.title = req.body.title;
+  }
+  if (req.body.description !== undefined) {
+    reviewToCreate.description = req.body.description;
+  }
+  if (req.body.rating !== undefined) {
+    reviewToCreate.rating = req.body.rating;
+  }
+  if (req.body.user !== undefined) {
+    reviewToCreate.user = req.body.user;
+  }
+  model.create(reviewToCreate, (err, result) => {
+    if (err) {
+      res.status(400).send();
+    } else {
+      res.status(201).send(result);
+    }
+  });
+});
+
 // adding a PUT endpoint to UPDATE database
 app.put('/review/:reviewId', (req, res) => {
   const reviewItem = { _id: req.params.reviewId };
