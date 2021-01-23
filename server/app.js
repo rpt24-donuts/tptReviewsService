@@ -3,12 +3,16 @@ const express = require('express');
 const mongoose = require('mongoose');
 
 const app = express();
+// middleware for the CRUD API
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 const path = require('path');
 
 const cors = require('cors');
 const { ModuleFilenameHelpers } = require('webpack');
 const { db, review, schema } = require('./mongodb.js');
+const model = require('./models');
 
 app.use(cors());
 
@@ -32,16 +36,92 @@ app.get('/products/:id/reviews/', (req, res) => {
     returnObject['reviews'] = results;
     review.find().distinct('grade', (err, grades) => {
       if (err) {
-        res.send(err);
+        res.status(400).send(err);
         return;
       }
       returnObject.grades = grades;
-      res.send(returnObject);
+      res.status(200).send(returnObject);
     });
   }).limit(20);
 });
 
+// adding a POST endpoint to CREATE a new item in the database
+app.post('/products/:id/review', (req, res) => {
+  const productId = req.params.id;
+  const reviewToCreate = {};
+  reviewToCreate.productId = productId;
+
+  if (req.body.grade !== undefined) {
+    reviewToCreate.grade = JSON.parse(req.body.grade);
+  }
+  if (req.body.standards !== undefined) {
+    reviewToCreate.standards = JSON.parse(req.body.standards);
+  }
+  if (req.body.title !== undefined) {
+    reviewToCreate.title = req.body.title;
+  }
+  if (req.body.description !== undefined) {
+    reviewToCreate.description = req.body.description;
+  }
+  if (req.body.rating !== undefined) {
+    reviewToCreate.rating = req.body.rating;
+  }
+  if (req.body.user !== undefined) {
+    reviewToCreate.user = req.body.user;
+  }
+  model.create(reviewToCreate, (err, result) => {
+    if (err) {
+      res.status(400).send();
+    } else {
+      res.status(201).send(result);
+    }
+  });
+});
+
+// adding a PUT endpoint to UPDATE database
+app.put('/review/:reviewId', (req, res) => {
+  const reviewItem = { _id: req.params.reviewId };
+  const updateFields = {};
+  // grade test input: ["1st Grade", "3rd Grade"]
+  if (req.body.grade !== undefined) {
+    updateFields.grade = JSON.parse(req.body.grade);
+  }
+  // standards test input: [{"standard" : "TKO 12.4f","alignment" : 5},{"standard" : "CCSS 3.NF.A.1","alignment" : 2}]
+  if (req.body.standards !== undefined) {
+    updateFields.standards = JSON.parse(req.body.standards);
+  }
+  if (req.body.title !== undefined) {
+    updateFields.title = req.body.title;
+  }
+  if (req.body.description !== undefined) {
+    updateFields.description = req.body.description;
+  }
+  if (req.body.rating !== undefined) {
+    updateFields.rating = req.body.rating;
+  }
+  model.put(reviewItem, updateFields, (err, result) => {
+    if (err) {
+      res.status(400).send();
+    } else {
+      res.status(200).send(result);
+    }
+  });
+});
+
+// adding a DELETE endpoint to DELETE from the database
+app.delete('/review/:reviewId', (req, res) => {
+  const reviewItem = { _id: req.params.reviewId };
+  model.delete(reviewItem, (err, result) => {
+    if (err) {
+      res.status(400).send();
+    } else {
+      res.status(204).send(result);
+    }
+  });
+});
+
 app.put('/helpful/:reviewId', (req, res) => {
+  console.log('req.params.reviewId ', req.params.reviewId);
   review.findOneAndUpdate({ _id: req.params.reviewId }, {$inc: {helpful: 1}}, (err, results) => {
     if (err) {
       console.log(err);
