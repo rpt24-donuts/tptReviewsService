@@ -73,6 +73,18 @@ app.put('/review/:reviewId', (req, res) => {
   });
 });
 
+// adding a DELETE endpoint to DELETE from the database
+app.delete('/review/:reviewId', (req, res) => {
+  const reviewItem = { _id: req.params.reviewId };
+  model.delete(reviewItem, (err, result) => {
+    if (err) {
+      res.status(400).send();
+    } else {
+      res.status(201).send(result);
+    }
+  });
+});
+
 app.put('/helpful/:reviewId', (req, res) => {
   console.log('req.params.reviewId ', req.params.reviewId);
   review.findOneAndUpdate({ _id: req.params.reviewId }, {$inc: {helpful: 1}}, (err, results) => {

@@ -28,6 +28,15 @@ const model = {
         });
     }
   },
+  delete: (reviewId, callback) => {
+    review.deleteOne(reviewId)
+      .then((success) => {
+        callback(null, success);
+      })
+      .catch((err) => {
+        callback(err);
+      });
+  },
 };
 
 module.exports = model;
