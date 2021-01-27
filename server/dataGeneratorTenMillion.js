@@ -30,6 +30,7 @@ const dataGen = (writer, encoding, callback) => {
         for (let m = 0; m < Math.floor(Math.random() * 3); m += 1) {
           gradeArray.push(grades[Math.floor(Math.random() * 5)]);
         }
+        // do this to be able to store the object in the tsv file
         review.grade = JSON.stringify(gradeArray);
 
         review.standards = [];
@@ -39,7 +40,7 @@ const dataGen = (writer, encoding, callback) => {
             standard: standards[Math.floor(Math.random() * 3)].join(' '),
             alignment: Math.floor(Math.random() * 5) + 1,
           };
-          // do this to be able to store in the tsv file
+          // do this to be able to store the object in the tsv file
           const stringifiedObj = JSON.stringify(obj);
 
           review.standards.push(stringifiedObj);
