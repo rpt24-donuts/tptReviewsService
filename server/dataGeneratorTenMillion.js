@@ -6,7 +6,7 @@ const fs = require('fs');
 // generate a random number of reviews per product, distributed normally
 const reviewsPerProductDistribution = gaussian(5, 2);
 
-const writeReviews = fs.createWriteStream('reviews.tsv');
+const writeReviews = fs.createWriteStream('server/reviews.tsv');
 writeReviews.write('productId\tuser\ttitle\tdescription\trating\thelpful\tgrade\tstandards\n', 'utf-8');
 
 const dataGen = (writer, encoding, callback) => {
@@ -32,6 +32,7 @@ const dataGen = (writer, encoding, callback) => {
         }
         // do this to be able to store the object in the tsv file
         review.grade = JSON.stringify(gradeArray);
+        //review.grade = gradeArray;
 
         review.standards = [];
         const standards = [['CCSS', 'RI. 6.2'], ['CCSS', '3.NF.A.1'], ['TKO', '12.4f']];
@@ -41,10 +42,12 @@ const dataGen = (writer, encoding, callback) => {
             alignment: Math.floor(Math.random() * 5) + 1,
           };
           // do this to be able to store the object in the tsv file
-          const stringifiedObj = JSON.stringify(obj);
+          //const stringifiedObj = JSON.stringify(obj);
+          //const stringifiedObj = obj;
 
-          review.standards.push(stringifiedObj);
+          review.standards.push(obj);
         }
+        review.standards = JSON.stringify(review.standards);
 
         const data = `${review.productId}\t${review.user}\t${review.title}\t${review.description}\t${review.rating}\t${review.helpful}\t${review.grade}\t${review.standards}\n`;
         if (i === 0 && j === numberReviews - 1) {

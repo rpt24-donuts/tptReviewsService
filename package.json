@@ -7,7 +7,8 @@
     "test": "jest --coverage --detectOpenHandles",
     "setup": "node DataGenerator.js && webpack",
     "start": "nodemon server/server.js",
-    "db-seed": "node DataGenerator.js",
+    "generate-data": "node server/dataGeneratorTenMillion.js",
+    "db-seed": "node server/postgresIndex.js",
     "react-dev": "webpack --watch"
   },
   "repository": {
@@ -25,8 +26,10 @@
     "bluebird": "^3.7.2",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "fast-csv": "^4.3.6",
     "mongoose": "^5.10.15",
     "mysql": "^2.18.1",
+    "pg": "^8.5.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "styled-components": "^5.2.1",
