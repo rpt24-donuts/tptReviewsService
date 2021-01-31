@@ -3,6 +3,8 @@ dist/bundle.js
 dist/bundle.js.LICENSE.txt
 server/mongokey.js
 AWSkey.js
+server/couchCredentials.js
+
 # Logs
 logs
 *.log

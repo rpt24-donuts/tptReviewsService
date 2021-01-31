@@ -8,7 +8,8 @@
     "setup": "node DataGenerator.js && webpack",
     "start": "nodemon server/server.js",
     "generate-data": "node server/dataGeneratorTenMillion.js",
-    "db-seed": "node server/postgresIndex.js",
+    "db-seed-postgres": "node server/postgresIndex.js",
+    "db-seed-couch": "node server/couchDbIndex.js",
     "react-dev": "webpack --watch"
   },
   "repository": {
@@ -25,9 +26,11 @@
     "axios": "^0.21.0",
     "bluebird": "^3.7.2",
     "cors": "^2.8.5",
+    "couchimport": "^1.5.2",
     "express": "^4.17.1",
     "mongoose": "^5.10.15",
     "mysql": "^2.18.1",
+    "nano": "^9.0.3",
     "pg": "^8.5.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",

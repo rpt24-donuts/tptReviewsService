@@ -46,7 +46,7 @@ app.get('/products/:id/reviews/', (req, res) => {
 });
 
 // adding a POST endpoint to CREATE a new item in the database
-app.post('/products/:id/review', (req, res) => {
+app.post('/products/:id/reviews', (req, res) => {
   const productId = req.params.id;
   const reviewToCreate = {};
   reviewToCreate.productId = productId;
@@ -79,7 +79,7 @@ app.post('/products/:id/review', (req, res) => {
 });
 
 // adding a PUT endpoint to UPDATE database
-app.put('/review/:reviewId', (req, res) => {
+app.put('/reviews/:reviewId', (req, res) => {
   const reviewItem = { _id: req.params.reviewId };
   const updateFields = {};
   // grade test input: ["1st Grade", "3rd Grade"]
@@ -109,7 +109,7 @@ app.put('/review/:reviewId', (req, res) => {
 });
 
 // adding a DELETE endpoint to DELETE from the database
-app.delete('/review/:reviewId', (req, res) => {
+app.delete('/reviews/:reviewId', (req, res) => {
   const reviewItem = { _id: req.params.reviewId };
   model.delete(reviewItem, (err, result) => {
     if (err) {
