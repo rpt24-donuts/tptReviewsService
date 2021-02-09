@@ -30,12 +30,8 @@ const model = {
         // reassing to make this work with the frontend
         const resultsForFE = {
           reviews: results.rows,
-          grades: ['1st Grade', '2nd Grade', '3rd Grade', '4th Grade', '5th Grade']
-        }
-
-
-
-
+          grades: ['1st Grade', '2nd Grade', '3rd Grade', '4th Grade', '5th Grade'],
+        };
         callback(null, resultsForFE);
       })
       .catch((err) => {
@@ -43,7 +39,12 @@ const model = {
       });
   },
   create: (reviewToCreate, callback) => {
-    review.create(reviewToCreate)
+    const query = {
+      text: 'INSERT INTO reviews (productid, username, title, description, rating, standards, grade) VALUES ($1, $2, $3, $4, $5, $6, $7)',
+      // eslint-disable-next-line max-len
+      values: [reviewToCreate.productId, reviewToCreate.user, reviewToCreate.title, reviewToCreate.description, reviewToCreate.rating, reviewToCreate.standards, reviewToCreate.grade],
+    };
+    pool.query(query)
       .then((results) => {
         callback(null, results);
       })

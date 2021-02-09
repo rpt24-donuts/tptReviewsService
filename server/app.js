@@ -46,12 +46,13 @@ app.post('/products/:id/reviews', (req, res) => {
   const productId = req.params.id;
   const reviewToCreate = {};
   reviewToCreate.productId = productId;
+  console.log('req.body ', req.body);
 
   if (req.body.grade !== undefined) {
-    reviewToCreate.grade = JSON.parse(req.body.grade);
+    reviewToCreate.grade = req.body.grade;
   }
   if (req.body.standards !== undefined) {
-    reviewToCreate.standards = JSON.parse(req.body.standards);
+    reviewToCreate.standards = req.body.standards;
   }
   if (req.body.title !== undefined) {
     reviewToCreate.title = req.body.title;
@@ -65,6 +66,7 @@ app.post('/products/:id/reviews', (req, res) => {
   if (req.body.user !== undefined) {
     reviewToCreate.user = req.body.user;
   }
+  console.log('reviewtocreate ', reviewToCreate);
   model.create(reviewToCreate, (err, result) => {
     if (err) {
       res.status(400).send();
