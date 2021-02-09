@@ -62,11 +62,16 @@ const model = {
       });
   },
   delete: (reviewId, callback) => {
-    review.deleteOne(reviewId)
+    const query = {
+      text: 'DELETE FROM reviews WHERE reviewid = $1',
+      values: [reviewId],
+    };
+    pool.query(query)
       .then((success) => {
         callback(null, success);
       })
       .catch((err) => {
+        console.log('err ', err);
         callback(err);
       });
   },

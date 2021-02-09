@@ -82,11 +82,11 @@ app.put('/reviews/:reviewId', (req, res) => {
   const updateFields = {};
   // grade test input: ["1st Grade", "3rd Grade"]
   if (req.body.grade !== undefined) {
-    updateFields.grade = JSON.parse(req.body.grade);
+    updateFields.grade = req.body.grade;
   }
   // standards test input: [{"standard" : "TKO 12.4f","alignment" : 5},{"standard" : "CCSS 3.NF.A.1","alignment" : 2}]
   if (req.body.standards !== undefined) {
-    updateFields.standards = JSON.parse(req.body.standards);
+    updateFields.standards = req.body.standards;
   }
   if (req.body.title !== undefined) {
     updateFields.title = req.body.title;
@@ -109,7 +109,8 @@ app.put('/reviews/:reviewId', (req, res) => {
 // adding a DELETE endpoint to DELETE from the database
 app.delete('/reviews/:reviewId', (req, res) => {
   const reviewItem = { _id: req.params.reviewId };
-  model.delete(reviewItem, (err, result) => {
+  const reviewId = req.params.reviewId;
+  model.delete(reviewId, (err, result) => {
     if (err) {
       res.status(400).send();
     } else {
