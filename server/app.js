@@ -12,7 +12,13 @@ const path = require('path');
 const cors = require('cors');
 const { ModuleFilenameHelpers } = require('webpack');
 const { db, review, schema } = require('./mongodb.js');
+const pool = require('./postgresdb.js');
 const model = require('./models');
+
+// pool.query('SELECT * FROM reviews LIMIT 2', (err, res) => {
+//   console.log(err, res);
+//   pool.end();
+// });
 
 app.use(cors());
 
@@ -25,24 +31,14 @@ app.get('/', (req, res) => {
 });
 
 app.get('/products/:id/reviews/', (req, res) => {
-  const returnObject = {};
-  let query = { productId: req.params.id, grade: (req.query.grades !== 'false') ? req.query.grades : undefined, rating: (req.query.ratings !== 'false') ? req.query.ratings : undefined}
-  Object.keys(query).forEach(key => {
-    if (query[key] === undefined) {
-      delete query[key];
+  var productId = req.params.id;
+  model.find(productId, (err, result) => {
+    if (err) {
+      res.status(400).send();
+    } else {
+      res.status(201).send(result);
     }
   });
-  review.find(query, (err, results) => {
-    returnObject['reviews'] = results;
-    review.find().distinct('grade', (err, grades) => {
-      if (err) {
-        res.status(400).send(err);
-        return;
-      }
-      returnObject.grades = grades;
-      res.status(200).send(returnObject);
-    });
-  }).limit(20);
 });
 
 // adding a POST endpoint to CREATE a new item in the database

@@ -25,6 +25,10 @@ class App extends React.Component {
   }
 
   componentDidMount() {
+    // let queryUrl = window.location.search;
+    // let urlParams = new URLSearchParams(queryUrl);
+    // let id = urlParams.get('products');
+
     let id = window.location.href.split("/")[4];
     this.setState({
       productId: id
@@ -42,11 +46,14 @@ class App extends React.Component {
 
   getReviews() {
     axios.get(`/products/${this.state.productId}/reviews?ratings=${this.state.sort.ratings || false}&grades=${this.state.sort.grades || false}`)
-      .then((results) => this.setState(
+      .then((results) => {
+        console.log('resutls ', results)
+        this.setState(
         {
           reviews: results.data.reviews, grades: results.data.grades,
         },
-      ));
+      )}
+      );
   }
 
   addHelpful(reviewId) {
