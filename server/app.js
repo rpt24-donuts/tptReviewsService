@@ -81,7 +81,7 @@ app.post('/products/:id/reviews', (req, res) => {
 
 // adding a PUT endpoint to UPDATE database
 app.put('/reviews/:reviewId', (req, res) => {
-  const reviewItem = { _id: req.params.reviewId };
+  const reviewItem = req.params.reviewId;
   const updateFields = {};
   // grade test input: ["1st Grade", "3rd Grade"]
   if (req.body.grade !== undefined) {
@@ -100,7 +100,16 @@ app.put('/reviews/:reviewId', (req, res) => {
   if (req.body.rating !== undefined) {
     updateFields.rating = req.body.rating;
   }
-  model.put(reviewItem, updateFields, (err, result) => {
+  // need to stringifyIT
+  let updateFieldsString = '';
+  for (var field in updateFields) {
+    var column = field;
+    var updatedValue = updateFields[field];
+    updateFieldsString = updateFieldsString + ' ' + column + ' = ' + "'" + updatedValue + "'" + ',';
+  }
+  updateFieldsString = updateFieldsString.slice(0, -1);
+  console.log('updateFieldsString ', updateFieldsString);
+  model.put(reviewItem, updateFieldsString, (err, result) => {
     if (err) {
       res.status(400).send();
     } else {

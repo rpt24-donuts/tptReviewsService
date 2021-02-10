@@ -53,7 +53,9 @@ const model = {
       });
   },
   put: (reviewId, updateFields, callback) => {
-    review.findOneAndUpdate(reviewId, updateFields, { new: true, useFindAndModify: false })
+    const query = `UPDATE reviews SET ${updateFields} WHERE reviewid = ${reviewId};`;
+    console.log('query ', query)
+    pool.query(query)
       .then((results) => {
         callback(null, results);
       })
