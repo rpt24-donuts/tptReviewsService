@@ -1,37 +1,21 @@
 const express = require('express');
 
-const mongoose = require('mongoose');
-
 const app = express();
-// middleware for the CRUD API
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 const path = require('path');
-
 const cors = require('cors');
-const { ModuleFilenameHelpers } = require('webpack');
-const { db, review, schema } = require('./mongodb.js');
-const pool = require('./postgresdb.js');
-const model = require('./models');
-
-// pool.query('SELECT * FROM reviews LIMIT 2', (err, res) => {
-//   console.log(err, res);
-//   pool.end();
-// });
 
 app.use(cors());
-
 app.use(express.static(path.join(__dirname, '../dist')));
-
 app.use('/static', express.static(path.join(__dirname, '../src')));
 
-app.get('/', (req, res) => {
-  //res.send('index.html');
-});
+const model = require('./models');
 
 app.get('/products/:id/reviews/', (req, res) => {
-  var productId = req.params.id;
+  const productId = req.params.id;
   model.find(productId, (err, result) => {
     if (err) {
       res.status(400).send();
@@ -46,7 +30,6 @@ app.post('/products/:id/reviews', (req, res) => {
   const productId = req.params.id;
   const reviewToCreate = {};
   reviewToCreate.productId = productId;
-  console.log('req.body ', req.body);
 
   if (req.body.grade !== undefined) {
     reviewToCreate.grade = req.body.grade;
@@ -69,7 +52,6 @@ app.post('/products/:id/reviews', (req, res) => {
   if (req.body.helpful !== undefined) {
     reviewToCreate.helpful = req.body.helpful;
   }
-  console.log('reviewtocreate ', reviewToCreate);
   model.create(reviewToCreate, (err, result) => {
     if (err) {
       res.status(400).send();
@@ -79,15 +61,12 @@ app.post('/products/:id/reviews', (req, res) => {
   });
 });
 
-// adding a PUT endpoint to UPDATE database
 app.put('/reviews/:reviewId', (req, res) => {
   const reviewItem = req.params.reviewId;
   const updateFields = {};
-  // grade test input: ["1st Grade", "3rd Grade"]
   if (req.body.grade !== undefined) {
     updateFields.grade = req.body.grade;
   }
-  // standards test input: [{"standard" : "TKO 12.4f","alignment" : 5},{"standard" : "CCSS 3.NF.A.1","alignment" : 2}]
   if (req.body.standards !== undefined) {
     updateFields.standards = req.body.standards;
   }
@@ -100,15 +79,13 @@ app.put('/reviews/:reviewId', (req, res) => {
   if (req.body.rating !== undefined) {
     updateFields.rating = req.body.rating;
   }
-  // need to stringifyIT
   let updateFieldsString = '';
   for (var field in updateFields) {
     var column = field;
     var updatedValue = updateFields[field];
     updateFieldsString = updateFieldsString + ' ' + column + ' = ' + "'" + updatedValue + "'" + ',';
-  }
+  };
   updateFieldsString = updateFieldsString.slice(0, -1);
-  console.log('updateFieldsString ', updateFieldsString);
   model.put(reviewItem, updateFieldsString, (err, result) => {
     if (err) {
       res.status(400).send();
@@ -118,10 +95,8 @@ app.put('/reviews/:reviewId', (req, res) => {
   });
 });
 
-// adding a DELETE endpoint to DELETE from the database
 app.delete('/reviews/:reviewId', (req, res) => {
-  const reviewItem = { _id: req.params.reviewId };
-  const reviewId = req.params.reviewId;
+  const { reviewId } = req.params;
   model.delete(reviewId, (err, result) => {
     if (err) {
       res.status(400).send();

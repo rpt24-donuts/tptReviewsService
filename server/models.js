@@ -1,5 +1,3 @@
-const { review } = require('./mongodb.js');
-
 const pool = require('./postgresdb.js');
 
 const model = {
@@ -27,7 +25,7 @@ const model = {
             results.rows[i].standards = [results.rows[i].standards];
             }
         }
-        // reassing to make this work with the frontend
+        // reassigning to make this work with the frontend
         const resultsForFE = {
           reviews: results.rows,
           grades: ['1st Grade', '2nd Grade', '3rd Grade', '4th Grade', '5th Grade'],
@@ -54,7 +52,6 @@ const model = {
   },
   put: (reviewId, updateFields, callback) => {
     const query = `UPDATE reviews SET ${updateFields} WHERE reviewid = ${reviewId};`;
-    console.log('query ', query)
     pool.query(query)
       .then((results) => {
         callback(null, results);
@@ -73,7 +70,6 @@ const model = {
         callback(null, success);
       })
       .catch((err) => {
-        console.log('err ', err);
         callback(err);
       });
   },
