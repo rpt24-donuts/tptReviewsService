@@ -66,6 +66,9 @@ app.post('/products/:id/reviews', (req, res) => {
   if (req.body.user !== undefined) {
     reviewToCreate.user = req.body.user;
   }
+  if (req.body.helpful !== undefined) {
+    reviewToCreate.helpful = req.body.helpful;
+  }
   console.log('reviewtocreate ', reviewToCreate);
   model.create(reviewToCreate, (err, result) => {
     if (err) {

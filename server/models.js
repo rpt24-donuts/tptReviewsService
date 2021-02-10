@@ -40,9 +40,9 @@ const model = {
   },
   create: (reviewToCreate, callback) => {
     const query = {
-      text: 'INSERT INTO reviews (productid, username, title, description, rating, standards, grade) VALUES ($1, $2, $3, $4, $5, $6, $7)',
+      text: 'INSERT INTO reviews (productid, username, title, description, rating, helpful, standards, grade) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)',
       // eslint-disable-next-line max-len
-      values: [reviewToCreate.productId, reviewToCreate.user, reviewToCreate.title, reviewToCreate.description, reviewToCreate.rating, reviewToCreate.standards, reviewToCreate.grade],
+      values: [reviewToCreate.productId, reviewToCreate.user, reviewToCreate.title, reviewToCreate.description, reviewToCreate.rating, reviewToCreate.helpful, reviewToCreate.standards, reviewToCreate.grade],
     };
     pool.query(query)
       .then((results) => {

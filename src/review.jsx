@@ -21,7 +21,7 @@ function Review(props) {
           <img className="avatar_img" src="https://ecdn1.teacherspayteachers.com/images/avatars/default.jpg" />
         </span>
         <div className="avatar_namedate">
-          <p className="avatar_namedate_name">{props.review.username.split(' ')[0] + ' ' + props.review.username.split(' ')[1][0] + '.'}</p>
+          <p className="avatar_namedate_name">{props.review.username}</p>
           <p className="avatar_namedate_date"> <span>October 25th, 2020</span></p>
         </div>
       </div>
