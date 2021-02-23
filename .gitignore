@@ -4,6 +4,7 @@ dist/bundle.js.LICENSE.txt
 server/mongokey.js
 AWSkey.js
 server/couchCredentials.js
+newrelic.js
 
 # Logs
 logs
