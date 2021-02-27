@@ -1,9 +1,19 @@
 config:
-  target: 'http://localhost:3001/?products/9123456'
+  target: 'http://localhost:3001'
   phases:
-    - duration: 60
-      arrivalRate: 20
+    - duration: 1
+      arrivalRate: 10
+  payload:
+    path: "reviewsTest.tsv"
+    fields:
+      - title
+      - description
 scenarios:
   - flow:
-    - get:
-        url: "/get"
+    - post:
+        url: "/products/99/reviews"
+        headers:
+           Content-Type: "application/json"
+        json:
+          title: "{{ title }}"
+          description: "{{ description }}"
