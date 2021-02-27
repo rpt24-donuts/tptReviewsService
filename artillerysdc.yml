@@ -1,0 +1,19 @@
+config:
+  target: 'http://localhost:3001'
+  phases:
+    - duration: 1
+      arrivalRate: 10
+  payload:
+    path: "reviewsTest.tsv"
+    fields:
+      - title
+      - description
+scenarios:
+  - flow:
+    - post:
+        url: "/products/99/reviews"
+        headers:
+           Content-Type: "application/json"
+        json:
+          title: "{{ title }}"
+          description: "{{ description }}"

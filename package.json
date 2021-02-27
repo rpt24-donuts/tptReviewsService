@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest --coverage --detectOpenHandles",
     "setup": "node DataGenerator.js && webpack",
-    "start": "nodemon server/server.js",
+    "start": "node server/server.js",
     "generate-data": "node server/dataGeneratorTenMillion.js",
     "db-seed-postgres": "node server/postgresIndex.js",
     "db-seed-couch": "node server/couchDbIndex.js",
